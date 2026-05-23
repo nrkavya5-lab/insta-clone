@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/deepseek-v4-flash:free",
+  "agent": {
+    "build": {
+      "description": "Main development agent for implementing Instagram Clone features",
+      "mode": "primary",
+      "model": "opencode/deepseek-v4-flash:free",
+      "temperature": 0.2,
+      "prompt": "{file:./prompts/build.md}",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow"
+      }
+    },
+    "plan": {
+      "description": "Planning and architecture agent for making design decisions before coding",
+      "mode": "primary",
+      "model": "opencode/deepseek-v4-flash:free",
+      "temperature": 0.1,
+      "reasoningEffort": "xhigh",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "glob": "allow",
+        "grep": "allow",
+        "read": "allow"
+      }
+    }
+  }
+}

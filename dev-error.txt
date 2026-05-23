@@ -1,0 +1,90 @@
+Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException: Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException:  Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException: Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException:  Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException: Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException:  Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException: Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException:  Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException: Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}
+⨯ uncaughtException:  Error: EPIPE: broken pipe, write
+    at ignore-listed frames {
+  errno: -4047,
+  syscall: 'write',
+  code: 'EPIPE'
+}

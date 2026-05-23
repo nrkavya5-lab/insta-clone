@@ -1,0 +1,317 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  username        String   @unique
+  email           String   @unique
+  passwordHash    String?
+  name            String?
+  bio             String?
+  avatarUrl       String?
+  website         String?
+  phone           String?
+  gender          String?
+  isPrivate       Boolean  @default(false)
+  isVerified      Boolean  @default(false)
+  isCreator       Boolean  @default(false)
+  isBanned        Boolean  @default(false)
+  bannedAt        DateTime?
+  allowTagging    Boolean  @default(true)
+  activityStatus  Boolean  @default(true)
+  theme           String   @default("system")
+  language        String   @default("en")
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
+
+  posts           Post[]
+  stories         Story[]
+  comments        Comment[]
+  likes           Like[]
+  savedPosts      SavedPost[]
+  followers       Follow[]  @relation("following")
+  following       Follow[]  @relation("follower")
+  sentMessages    Message[] @relation("sender")
+  conversations   ConversationParticipant[]
+  notifications   Notification[]
+  blockedUsers    Block[]   @relation("blocker")
+  blockedBy       Block[]   @relation("blocked")
+  closeFriends    CloseFriend[] @relation("user")
+  addedByClose    CloseFriend[] @relation("closeFriend")
+  accounts        Account[]
+  sessions        Session[]
+  notificationPreferences NotificationPreference?
+  reports                 Report[]  @relation("reporter")
+  resolvedReports         Report[]  @relation("resolver")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follow {
+  id          String  @id @default(cuid())
+  followerId  String
+  followingId String
+  status      String  @default("active")
+  follower    User    @relation("follower", fields: [followerId], references: [id])
+  following   User    @relation("following", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+  @@index([followingId])
+}
+
+model Post {
+  id         String   @id @default(cuid())
+  userId     String
+  caption    String?
+  mediaUrls  String[]
+  mediaType  String
+  location   String?
+  likeCount  Int      @default(0)
+  commentCount Int    @default(0)
+  isArchived Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  deletedAt  DateTime?
+
+  user       User     @relation(fields: [userId], references: [id])
+  comments   Comment[]
+  likes      Like[]
+  savedBy    SavedPost[]
+  hashtags   PostHashtag[]
+  reports    Report[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
+
+model Story {
+  id        String     @id @default(cuid())
+  userId    String
+  mediaUrl  String
+  mediaType String
+  caption   String?
+  expiresAt DateTime
+  user      User       @relation(fields: [userId], references: [id])
+  views     StoryView[]
+  createdAt DateTime   @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model StoryView {
+  id        String   @id @default(cuid())
+  storyId   String
+  userId    String
+  story     Story    @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([storyId, userId])
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  postId          String
+  userId          String
+  text            String
+  parentCommentId String?
+  post            Post      @relation(fields: [postId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
+  parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+  replies         Comment[] @relation("CommentReplies")
+  reports         Report[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([postId, createdAt])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
+
+model SavedPost {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  isGroup   Boolean  @default(false)
+  name      String?
+  imageUrl  String?
+  messages  Message[]
+  participants ConversationParticipant[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ConversationParticipant {
+  id             String       @id @default(cuid())
+  conversationId String
+  userId         String
+  lastReadAt     DateTime?
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+  joinedAt       DateTime     @default(now())
+
+  @@unique([conversationId, userId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  text           String?
+  mediaUrl       String?
+  mediaType      String?
+  isRead         Boolean      @default(false)
+  readAt         DateTime?
+  isDeleted      Boolean      @default(false)
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         User         @relation("sender", fields: [senderId], references: [id])
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  actorId   String
+  postId    String?
+  commentId String?
+  isRead    Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model NotificationPreference {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  likes     Boolean @default(true)
+  comments  Boolean @default(true)
+  follows   Boolean @default(true)
+  dms       Boolean @default(true)
+  reminders Boolean @default(true)
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Hashtag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  postCount Int           @default(0)
+  posts     PostHashtag[]
+  createdAt DateTime      @default(now())
+}
+
+model PostHashtag {
+  postId    String
+  hashtagId String
+  post      Post    @relation(fields: [postId], references: [id])
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [id])
+
+  @@id([postId, hashtagId])
+}
+
+model Block {
+  id        String   @id @default(cuid())
+  blockerId String
+  blockedId String
+  blocker   User     @relation("blocker", fields: [blockerId], references: [id])
+  blocked   User     @relation("blocked", fields: [blockedId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+}
+
+model CloseFriend {
+  id            String @id @default(cuid())
+  userId        String
+  closeFriendId String
+  user          User   @relation("user", fields: [userId], references: [id])
+  closeFriend   User   @relation("closeFriend", fields: [closeFriendId], references: [id])
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, closeFriendId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Report {
+  id             String    @id @default(cuid())
+  reporterId     String
+  reportedUserId String?
+  postId         String?
+  commentId      String?
+  reason         String
+  status         String    @default("pending")
+  resolvedAt     DateTime?
+  resolvedById   String?
+
+  reporter  User?   @relation("reporter", fields: [reporterId], references: [id])
+  resolver  User?   @relation("resolver", fields: [resolvedById], references: [id])
+  post      Post?   @relation(fields: [postId], references: [id])
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}

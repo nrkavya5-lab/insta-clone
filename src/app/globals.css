@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--ig-bg-primary);
+  --color-foreground: var(--ig-text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-ig-blue: #405de6;
+  --color-ig-purple: #833ab4;
+  --color-ig-pink: #e1306c;
+  --color-ig-orange: #f56040;
+  --color-ig-yellow: #fcaf45;
+  --color-ig-red: #fd1d1d;
+  --color-ig-like: #ed4956;
+  --color-ig-success: #00c853;
+  --color-ig-error: #ed4956;
+  --color-ig-link: #00376b;
+  --color-ig-story-from: #fcaf45;
+  --color-ig-story-to: #e1306c;
+  --color-ig-message-sent: #3797f0;
+  --color-ig-message-received: #f0f0f0;
+  --color-ig-gradient-start: #405de6;
+  --color-ig-gradient-end: #e1306c;
+
+  --animate-heart-bounce: heart-bounce 0.3s ease-in-out;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-typing: typing 1.4s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes heart-bounce {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-4px); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(55, 151, 240, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(55, 151, 240, 0.6); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+}
+
+:root {
+  --ig-bg-primary: #ffffff;
+  --ig-bg-secondary: #fafafa;
+  --ig-bg-tertiary: #f5f5f5;
+  --ig-bg-quaternary: #efefef;
+  --ig-text-primary: #262626;
+  --ig-text-secondary: #8e8e8e;
+  --ig-text-link: #00376b;
+  --ig-border: #dbdbdb;
+  --ig-border-focus: #a8a8a8;
+  --ig-overlay: rgba(0, 0, 0, 0.65);
+  --ig-gradient: linear-gradient(135deg, #405de6, #833ab4, #e1306c);
+  --ig-gradient-horizontal: linear-gradient(90deg, #405de6, #e1306c);
+  --ig-message-sent: linear-gradient(135deg, #3797f0, #4a8cf7);
+  --ig-message-sent-alt: linear-gradient(135deg, #405de6, #3797f0);
+  --ig-shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --ig-shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --ig-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.dark {
+  --ig-bg-primary: #000000;
+  --ig-bg-secondary: #121212;
+  --ig-bg-tertiary: #1e1e1e;
+  --ig-bg-quaternary: #2a2a2a;
+  --ig-text-primary: #fafafa;
+  --ig-text-secondary: #a8a8a8;
+  --ig-border: #363636;
+  --ig-border-focus: #555555;
+  --ig-overlay: rgba(0, 0, 0, 0.8);
+  --ig-shadow-sm: 0 1px 3px rgba(255,255,255,0.05);
+  --ig-shadow-md: 0 4px 12px rgba(255,255,255,0.08);
+  --ig-shadow-lg: 0 8px 24px rgba(255,255,255,0.1);
+}
+
+body {
+  background: var(--ig-bg-primary);
+  color: var(--ig-text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.gradient-text {
+  background: var(--ig-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ig-button {
+  background: var(--ig-gradient);
+  transition: all 0.2s ease;
+}
+.ig-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
+}
+
+.ig-button-outline {
+  border: 1px solid var(--ig-border);
+  transition: all 0.2s ease;
+}
+.ig-button-outline:hover {
+  border-color: var(--ig-text-primary);
+  background: var(--ig-bg-tertiary);
+}
